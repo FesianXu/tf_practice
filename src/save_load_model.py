@@ -5,6 +5,11 @@ __author__ = 'FesianXu'
 __date__ = '2017/5/19'
 __version__ = ''
 
+"""
+using to show how to save the trained model and load it
+This demo is based on and modified from multi_classfy.py
+"""
+
 import cv2
 import tensorflow as tf
 import numpy as np
@@ -95,25 +100,17 @@ if __name__ == '__main__':
     optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
 
     init = tf.global_variables_initializer()
-    saver = tf.train.Saver()
+    saver = tf.train.Saver() ## saver
     with tf.Session() as sess:
         saver.restore(sess, './model/model.ckpt')
-        # sess.run(init) # init the variable
-        #
-        # for i in range(train_epoch):
-        #     avg_cost = 0
-        #     for j in range(training_time):
-        #         mats, labels = getSamplesMat()
-        #         _,c = sess.run([optimizer, cost],feed_dict={x:mats,
-        #                                                     y:labels})
-        #         avg_cost += c/training_time
-        #     print('time = ',i,'with cost = ',avg_cost)
+        ### load the model which has been trainned before
         correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
         test_mats,test_labels = getTestBatch()
         print("Accuracy:", accuracy.eval({x: test_mats, y: test_labels}))
-        saver_path = saver.save(sess, './model/model.ckpt')
-        print(saver_path)
+        # saver_path = saver.save(sess, './model/model.ckpt')
+        # print(saver_path)
+        ## save model
 
     timeend = cv2.getTickCount()
     time = (timeend - timebegin)/ cv2.getTickFrequency()

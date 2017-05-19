@@ -1,0 +1,2 @@
+1） logistic regression中，如果使用交叉熵cross-entropy作为cost function，则需要注意增加一个小的正数作为规范化作用，如y*tf.log(pred+0.0001)
+中的0.0001，因为如果出现pred = 0的情况，将会出现tf.log()  = NaN的情况，将会产生模型失效的情况，因此需要加上规范化。这个也是交叉熵需要注意的。
